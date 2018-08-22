@@ -1,0 +1,1 @@
+from .cpi import CPI
