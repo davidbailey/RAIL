@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+from setuptools import setup
+
+setup(name='RAIL',
+      version='0.1',
+      description='Risk Assessment Library',
+      author='David Bailey',
+      author_email='david@davidabailey.com',
+      url='https://github.com/davidbailey/rail',
+      packages=['rail'],
+      license='MIT License',
+      install_requires=['numpy', 'pandas', 'matplotlib', 'scipy']
+)
