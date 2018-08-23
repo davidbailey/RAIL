@@ -7,7 +7,7 @@ Risk Assessment Library
 Installation
 ----
 
-`pip3 install git+https://github.com/davidbailey/RAIL.git`
+```pip3 install git+https://github.com/davidbailey/RAIL.git```
 
 
 Documentation
