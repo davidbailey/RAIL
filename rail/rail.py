@@ -153,7 +153,7 @@ class Impact(UserDict):
             lognorm.ppf(0.999, s=self.data['sigma'], scale=np.exp(self.data['mu'])),
             num
         )
-        plt.title('%s (probability density function)' % (self.data['name']))
+        plt.title('%s (PDF)' % (self.data['name']))
         plt.ylabel('relative likelihood')
         plt.xlabel('impact')
         return plt.plot(x, lognorm.pdf(x, s=self.data['sigma'], scale=np.exp(self.data['mu'])), axes=axes)
