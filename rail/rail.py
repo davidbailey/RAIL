@@ -8,6 +8,7 @@ pd.set_option('display.float_format', lambda x: '%.2f' % x)
 pd.set_option('display.max_colwidth', -1)
 plt.style.use('seaborn-poster')
 
+
 class Tree(UserDict):
     def __init__(self, name: str, parent=None, sort: bool=True) -> None:
         self.data = {}
@@ -73,24 +74,36 @@ class ThreatEvents(UserDict):
 
 
 class Control(UserDict):
-    def __init__(self, name: str, cost: float, likelihood_reduction: float, implemented: bool=True) -> None:
+    def __init__(self, name: str, cost: float, reduction: float, implemented: bool=True) -> None:
         self.data = {}
         self.data['name'] = name
         self.data['cost'] = cost
-        self.data['likelihood_reduction'] = likelihood_reduction
+        self.data['reduction'] = reduction
         self.data['implemented'] = implemented
+
+    def evaluate_lognormal(self, iterations=1):
+        return Control(
+            name = self.data['name'],
+            cost = lognorm.ppf(np.random.rand(iterations), s=np.log(self.data['cost'])),
+            reduction = lognorm.ppf(np.random.rand(iterations), s=np.log(self.data['reduction'])),
+            implemented = self.data['implemented']
+        )
 
 
 class Controls(UserDict):
     def __init__(self) -> None:
         self.data = {}
 
-    def new(self, name: str, cost: float, likelihood_reduction: float) -> Control:
-        self.data[name] = Control(name, cost, likelihood_reduction)
-        return self.data[name]     
+    def new(self, name: str, cost: float, reduction: float) -> Control:
+        self.data[name] = Control(name, cost, reduction)
+        return self.data[name]
 
     def costs(self):
-        return np.sum(list(map(lambda x: x['cost'] if x['implemented'] == True else 0, self.data.values())))
+        return np.sum(list(map(lambda x: x['cost'] if x['implemented'] is True else 0, self.data.values())))
+
+    def costs_lognormal(self):
+        return np.sum(list(map(lambda x: x.evaluate_lognormal().data['cost'] if x.data['implemented'] is True else 0, self)))
+
 
 
 class Vulnerability(UserDict):
@@ -170,11 +183,12 @@ class Risk(UserDict):
         self.data['impact'] = impact
 
     def evaluate_deterministic(self) -> float:
-        likelihood_reduction = np.product(list(map(lambda x: x['likelihood_reduction'] if x['implemented'] == True else 1, self.data['vulnerability']['controls'])))
-        return self.data['likelihood']['lam'] * self.data['impact']['mean'] * likelihood_reduction
+        reduction = np.product(list(map(lambda x: x['reduction'] if x['implemented'] is True else 1, self.data['vulnerability']['controls'])))
+        return self.data['likelihood']['lam'] * self.data['impact']['mean'] * reduction
+
     def evaluate_lognormal(self, iterations: int = 1000) -> float:
-        likelihood_reduction = np.product(list(map(lambda x: x['likelihood_reduction'] if x['implemented'] == True else 1, self.data['vulnerability']['controls'])))
-        return lognorm.ppf(np.random.rand(iterations), s=self.data['impact']['sigma'], scale=np.exp(self.data['impact']['mu'])) * np.random.poisson(lam=self.data['likelihood']['lam'] * likelihood_reduction, size=iterations)
+        reduction = np.product(list(map(lambda x: x['reduction'] if x['implemented'] is True else 1, self.data['vulnerability']['controls'])))
+        return lognorm.ppf(np.random.rand(iterations), s=self.data['impact']['sigma'], scale=np.exp(self.data['impact']['mu'])) * np.random.poisson(lam=self.data['likelihood']['lam'] * reduction, size=iterations)
 
 
 class Risks(UserDict):
@@ -218,10 +232,13 @@ class Risks(UserDict):
         df['Risk (mean)'] = list(map(lambda x: x.evaluate_deterministic(), self.data.values()))
         return df
 
-    def determine_optimum_controls(self, controls, controls_to_optimize):
+    def determine_optimum_controls(self, controls, controls_to_optimize, stochastic=False):
         if not controls_to_optimize:
             loss = self.expected_loss_deterministic_mean()
-            cost = controls.costs()
+            if stochastic:
+                cost = controls.costs_lognormal()
+            else:
+                cost = controls.costs()
             self.cost_loss.append({'cost': cost, 'loss': loss})
             return {'loss': loss, 'cost': cost, 'controls': copy.deepcopy(controls)}
         else:
@@ -240,14 +257,14 @@ class Risks(UserDict):
     def set_optimum_controls(self, controls):
         optimum_controls = self.determine_optimum_controls(controls, controls)
         for control in optimum_controls['controls']:
-            if optimum_controls['controls'][control]['implemented'] == True:
+            if optimum_controls['controls'][control]['implemented'] is True:
                 controls[control]['implemented'] = True
             else:
                 controls[control]['implemented'] = False
         df = pd.DataFrame(list(optimum_controls['controls'].values())).set_index('name')
         return df
 
-    def plot_risk_cost_matrix(self, controls=controls, axes=None):
+    def plot_risk_cost_matrix(self, controls, axes=None):
         self.set_optimum_controls(controls)
         df = pd.DataFrame(self.cost_loss)
         plt.title('residual risk versus control cost')
@@ -256,3 +273,9 @@ class Risks(UserDict):
         plt.scatter(df['cost'], df['loss'], axes=axes)
         plt.scatter(controls.costs(), risks.expected_loss_deterministic_mean(), color='red', axes=axes)
         axes.set_xlim(xmin=0)
+
+    def sensitivity_test(self, controls, iterations=1000):
+        results = []
+        for i in range(iterations):
+            results.append(self.determine_optimum_controls(controls, controls, stochastic=True)['controls'].values())
+        return results
