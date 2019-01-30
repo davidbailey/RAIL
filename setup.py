@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='RAIL',
-      version='0.4',
+      version='0.5',
       description='Risk Assessment Library',
       author='David Bailey',
       author_email='david@davidabailey.com',
