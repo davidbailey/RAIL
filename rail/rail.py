@@ -228,7 +228,7 @@ class Risks(UserDict):
         return np.array(list(map(lambda row: row.evaluate_deterministic(), self.data.values()))).sum()
 
     def calculate_dataframe_deterministic_mean(self):
-        df = risks.dataframe.copy()
+        df = self.dataframe.copy()
         df['Risk (mean)'] = list(map(lambda x: x.evaluate_deterministic(), self.data.values()))
         return df
 
@@ -271,7 +271,7 @@ class Risks(UserDict):
         plt.ylabel('residual risk')
         plt.xlabel('control cost')
         plt.scatter(df['cost'], df['loss'], axes=axes)
-        plt.scatter(controls.costs(), risks.expected_loss_deterministic_mean(), color='red', axes=axes)
+        plt.scatter(controls.costs(), self.expected_loss_deterministic_mean(), color='red', axes=axes)
         axes.set_xlim(xmin=0)
 
     def sensitivity_test(self, controls, iterations=1000):
