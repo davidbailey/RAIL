@@ -2,7 +2,8 @@ RAIL
 ====
 Risk Assessment Library
 
-[![Build Status](https://travis-ci.com/davidbailey/RAIL.svg?branch=master)](https://travis-ci.com/davidbailey/RAIL)
+.. image:: https://travis-ci.com/davidbailey/RAIL.svg?branch=master
+    :target: https://travis-ci.com/davidbailey/RAIL
 
 Installation
 ----
