@@ -1,11 +1,11 @@
 """
-A class to implement Threat Sources
+A class to represent Threat Sources
 """
 from collections import UserDict
 
 class ThreatSource(UserDict): # pylint: disable=too-many-ancestors
     """
-    A class to implement Threat Sources
+    A class to represent Threat Sources
     """
     def __init__(self, name: str) -> None:
         UserDict.__init__(self)

@@ -8,23 +8,11 @@ from scipy.stats import lognorm
 
 from .tree import Tree
 from .threat_source import ThreatSource, ThreatSources
+from .threat_event import ThreatEvent, ThreatEvents
 
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
 pd.set_option('display.max_colwidth', -1)
 plt.style.use('seaborn-poster')
-
-
-class ThreatEvent(UserDict):
-    def __init__(self, name: str, threat_source: ThreatSource) -> None:
-        self.data = {}
-        self.data['name'] = name
-        self.data['threat_source'] = threat_source
-
-
-class ThreatEvents(UserDict):
-    def new(self, name: str, threat_source: ThreatSource) -> ThreatEvent:
-        self.data[name] = ThreatEvent(name, threat_source)
-        return self.data[name]
 
 
 class Control(UserDict):
