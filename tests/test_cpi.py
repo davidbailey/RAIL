@@ -5,7 +5,7 @@ import unittest
 
 from rail import CPI
 
-class TestTree(unittest.TestCase):
+class TestCPI(unittest.TestCase):
     """
     Class to test a CPI.
     """

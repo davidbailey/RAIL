@@ -39,7 +39,10 @@ class TestTree(unittest.TestCase):
             mock_print.reset_mock()
             self.assertEqual(self.tree.to_print(), None)
             mock_print.assert_called()
-            mock_print.assert_has_calls([mock.call('/test tree'), mock.call('/test tree/test child')])
+            mock_print.assert_has_calls([
+                mock.call('/test tree'),
+                mock.call('/test tree/test child')
+            ])
 
     def test_to_latex(self):
         """
@@ -49,11 +52,11 @@ class TestTree(unittest.TestCase):
             self.assertEqual(self.tree.to_latex(), None)
             mock_print.assert_called()
             mock_print.assert_has_calls([
-                mock.call('child { node{test tree}'), 
+                mock.call('child { node{test tree}'),
                 mock.call('child { node{test child}'),
                 mock.call('}'),
-                mock.call('}')]
-            )   
+                mock.call('}')
+            ])
 
     def test_to_dict_list(self):
         """
