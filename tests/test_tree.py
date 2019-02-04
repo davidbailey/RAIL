@@ -12,7 +12,7 @@ class TestTree(unittest.TestCase):
     """
     def setUp(self):
         self.tree = Tree(name='test tree')
-        self.tree.addChild('test child')
+        self.tree.add_child('test child')
 
     def test_tree(self):
         """
