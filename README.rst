@@ -1,8 +1,9 @@
 RAIL
 ====
-
 Risk Assessment Library
 
+.. image:: https://travis-ci.com/davidbailey/RAIL.svg?branch=master
+    :target: https://travis-ci.com/davidbailey/RAIL
 
 Installation
 ----
