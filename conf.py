@@ -11,3 +11,4 @@ extensions = [
     'sphinx.ext.autodoc',
 ]
 
+autodoc_mock_imports = ["rail"]
