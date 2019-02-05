@@ -1,3 +1,5 @@
+import rail
+
 master_doc = 'README'
 
 extensions = [
