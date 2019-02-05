@@ -1,3 +1,5 @@
+sys.path.insert(0, os.path.abspath('.'))
+
 import rail
 
 master_doc = 'README'
