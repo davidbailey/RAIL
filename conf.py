@@ -10,5 +10,3 @@ master_doc = 'README'
 extensions = [
     'sphinx.ext.autodoc',
 ]
-
-autodoc_mock_imports = ["rail"]
