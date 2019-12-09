@@ -16,7 +16,7 @@ class TestLikelihood(unittest.TestCase):
         """
         Test a likelihood
         """
-        self.assertEqual(self.likelihood['name'], '.5')
+        self.assertEqual(self.likelihood['name'], '0.5')
         self.assertEqual(self.likelihood['lam'], .5)
 
 
