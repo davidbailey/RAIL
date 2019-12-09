@@ -11,7 +11,8 @@ class CPI:
 
     def __init__(self) -> None:
         url = "https://download.bls.gov/pub/time.series/cu/cu.data.0.Current"
-        self.cpi = pd.read_csv(url, sep="\t")
+        self.cpi = pd.read_csv(url, sep="\t", skipinitialspace=True)
+        self.cpi.columns = [c.replace(' ', '') for c in self.cpi.columns]
 
     def inflation(self, from_year: int, to_year: int) -> float:
         """

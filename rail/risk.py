@@ -8,6 +8,7 @@ from scipy.stats import lognorm
 
 from .control import Control, Controls
 from .likelihood import Likelihood
+from .impact import Impact
 from .vulnerability import Vulnerability, Vulnerabilities
 
 pd.set_option("display.float_format", lambda x: "%.2f" % x)
