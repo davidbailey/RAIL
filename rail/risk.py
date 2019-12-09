@@ -6,114 +6,13 @@ import numpy as np
 import pandas as pd
 from scipy.stats import lognorm
 
-from .tree import Tree
-from .threat_source import ThreatSource, ThreatSources
-from .threat_event import ThreatEvent, ThreatEvents
+from .control import Control, Controls
+from .likelihood import Likelihood
+from .vulnerability import Vulnerability Vulnerabilities
 
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
 pd.set_option('display.max_colwidth', -1)
 plt.style.use('seaborn-poster')
-
-
-class Control(UserDict):
-    def __init__(self, name: str, cost: float, reduction: float, implemented: bool=True) -> None:
-        self.data = {}
-        self.data['name'] = name
-        self.data['cost'] = cost
-        self.data['reduction'] = reduction
-        self.data['implemented'] = implemented
-
-    def evaluate_lognormal(self, iterations=1):
-        return Control(
-            name = self.data['name'],
-            cost = lognorm.ppf(np.random.rand(iterations), s=np.log(self.data['cost'])),
-            reduction = lognorm.ppf(np.random.rand(iterations), s=np.log(self.data['reduction'])),
-            implemented = self.data['implemented']
-        )
-
-
-class Controls(UserDict):
-    def __init__(self) -> None:
-        self.data = {}
-
-    def new(self, name: str, cost: float, reduction: float) -> Control:
-        self.data[name] = Control(name, cost, reduction)
-        return self.data[name]
-
-    def costs(self):
-        return np.sum(list(map(lambda x: x['cost'] if x['implemented'] is True else 0, self.data.values())))
-
-    def costs_lognormal(self):
-        return np.sum(list(map(lambda x: x.evaluate_lognormal().data['cost'] if x.data['implemented'] is True else 0, self)))
-
-
-
-class Vulnerability(UserDict):
-    def __init__(self, threat_event: ThreatEvent, system: Tree, controls: [Control] = []) -> None:
-        self.data = {}
-        self.data['name'] = threat_event['name'] + ' -> ' + system.path() + ' | ' + str(controls)
-        self.data['threat_event'] = threat_event
-        self.data['system'] = system
-        self.data['controls'] = controls
-
-
-class Vulnerabilities(UserDict):
-    def new(self, threat_event: ThreatEvent, system: Tree, controls: [Control] = []) -> Vulnerability:
-        name = threat_event['name'] + ' -> ' + system.path() + ' | ' + str(controls)
-        self.data[name] = Vulnerability(threat_event, system, controls)
-        return self.data[name]
-
-
-class Likelihood(UserDict):
-    def __init__(self, lam: float) -> None:
-        if lam < 0:
-            raise ValueError('Likelihood value lam must be greater than or equal to zero.')
-        self.data = {}
-        self.data['name'] = str(lam)
-        self.data['lam'] = lam
-
-    def plot(self, axes=None) -> tuple:
-        s = np.random.poisson(self.data['lam'], 10000)
-        plt.title('%s (histogram)' % (self.data['name']))
-        plt.ylabel('relative frequency')
-        plt.xlabel('likelihood')
-        return plt.hist(s, 14, normed=True, axes=axes)
-
-
-class Impact(UserDict):
-    def __init__(self, name: str, mu: float, sigma: float) -> None:
-        if mu < 0:
-            raise ValueError('Impact value mu must be greater than or equal to 0.')
-        if sigma < 0:
-            raise ValueError('Impact value s must be greater than or equal to 0.')
-        self.data = {}
-        self.data['name'] = name
-        self.data['mean'] = np.exp(mu + sigma**2 / 2)
-        self.data['median'] = np.exp(mu)
-        self.data['mu'] = mu
-        self.data['sigma'] = sigma
-
-    def from_lower_90_upper_90(name: str, lower_90: float, upper_90: float):
-        if lower_90 < 0:
-            raise ValueError('Impact value lower_90 must be greater than or equal to 0.')
-        if upper_90 < 0:
-            raise ValueError('Impact value upper_90 must be greater than or equal to 0.')
-        if lower_90 >= upper_90:
-            raise ValueError('Impact value upper_90 must be greater than value lower_90.')
-        sigma = (np.log(upper_90) - np.log(lower_90)) / 3.29
-        mu = (np.log(lower_90) + np.log(upper_90)) / 2
-        return Impact(name, mu, sigma)
-
-    def plot(self, num=1000, axes=None) -> list:
-        x = np.linspace(
-            lognorm.ppf(0.001, s=self.data['sigma'], scale=np.exp(self.data['mu'])),
-            lognorm.ppf(0.999, s=self.data['sigma'], scale=np.exp(self.data['mu'])),
-            num
-        )
-        plt.title('%s (PDF)' % (self.data['name']))
-        plt.ylabel('relative likelihood')
-        plt.xlabel('impact')
-        return plt.plot(x, lognorm.pdf(x, s=self.data['sigma'], scale=np.exp(self.data['mu'])), axes=axes)
 
 
 class Risk(UserDict):
