@@ -35,21 +35,21 @@ class Controls(UserDict):
         self.data = {}
 
     def new(self, name: str, cost: float, reduction: float) -> Control:
-    """
-    A method to add a new controls to the Controls class
-    """
+        """
+        A method to add a new controls to the Controls class
+        """
         self.data[name] = Control(name, cost, reduction)
         return self.data[name]
 
     def costs(self):
-    """
-    A method to compute the deterministic costs of implemented controls in a Controls class
-    """
+        """
+        A method to compute the deterministic costs of implemented controls in a Controls class
+        """
         return np.sum(list(map(lambda x: x['cost'] if x['implemented'] is True else 0, self.data.values())))
 
     def costs_lognormal(self):
-    """
-    A method to compute the stochastic costs of implemented controls in a Controls class
-    """
+        """
+        A method to compute the stochastic costs of implemented controls in a Controls class
+        """
         return np.sum(list(map(lambda x: x.evaluate_lognormal().data['cost'] if x.data['implemented'] is True else 0, self)))
 
