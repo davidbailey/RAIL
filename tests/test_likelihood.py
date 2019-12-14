@@ -19,7 +19,8 @@ class TestLikelihood(unittest.TestCase):
         """
         Test a likelihood
         """
-        self.assertRaises(ValueError, Likelihood(-1))
+        with self.assertRaises(ValueError):
+            Likelihood(-1)
         self.assertEqual(self.likelihood["name"], str(LAM))
         self.assertEqual(self.likelihood["lam"], LAM)
         self.assertIsNotNone(self.likelihood.plot())
