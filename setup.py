@@ -11,6 +11,6 @@ setup(
     url="https://github.com/davidbailey/rail",
     packages=["rail"],
     license="MIT License",
-    install_requires=["numpy", "pandas", "matplotlib", "scipy"],
+    install_requires=["matplotlib", "numpy", "pandas", "scipy"],
     tests_requires=["black"],
 )

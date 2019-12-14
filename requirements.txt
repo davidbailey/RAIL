@@ -1,4 +1,5 @@
+black
+matplotlib
 numpy
 pandas
-matplotlib
 scipy
