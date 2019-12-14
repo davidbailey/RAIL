@@ -7,5 +7,5 @@ script:
   - black . 
   - pytest --cov=rail
 after_success:
-  — coveralls
+  - coveralls
 
