@@ -12,5 +12,5 @@ setup(
     packages=["rail"],
     license="MIT License",
     install_requires=["matplotlib", "numpy", "pandas", "scipy"],
-    tests_requires=["black"],
+    tests_requires=["black", "coveralls", "pytest", "pytest-cov"],
 )
