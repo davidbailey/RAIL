@@ -4,9 +4,8 @@ Risk Assessment Library
 
 .. image:: https://travis-ci.com/davidbailey/RAIL.svg?branch=master
     :target: https://travis-ci.com/davidbailey/RAIL
-
 .. image:: https://coveralls.io/repos/github/davidbailey/RAIL/badge.svg
-:target: https://coveralls.io/github/davidbailey/RAIL
+    :target: https://coveralls.io/github/davidbailey/RAIL
 
 Installation
 ----
