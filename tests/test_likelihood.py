@@ -5,6 +5,7 @@ import unittest
 
 from rail import Likelihood
 
+LAM = 0.5
 
 class TestLikelihood(unittest.TestCase):
     """
@@ -12,14 +13,14 @@ class TestLikelihood(unittest.TestCase):
     """
 
     def setUp(self):
-        self.likelihood = Likelihood(0.5)
+        self.likelihood = Likelihood(LAM)
 
     def test_likelihood(self):
         """
         Test a likelihood
         """
-        self.assertEqual(self.likelihood["name"], "0.5")
-        self.assertEqual(self.likelihood["lam"], 0.5)
+        self.assertEqual(self.likelihood["name"], str(LAM))
+        self.assertEqual(self.likelihood["lam"], LAM)
 
 
 if __name__ == "__main__":
