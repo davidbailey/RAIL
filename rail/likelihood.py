@@ -14,11 +14,11 @@ class Likelihood(UserDict):
     """
 
     def __init__(self, lam: float) -> None:
+        self.data = {}
         if lam < 0:
             raise ValueError(
                 "Likelihood value lam must be greater than or equal to zero."
             )
-        self.data = {}
         self.data["name"] = str(lam)
         self.data["lam"] = lam
 
