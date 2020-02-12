@@ -3,12 +3,23 @@ Tests for the Likelihood class
 """
 import unittest
 
-from rail import Control, Impact, Likelihood, Risk, Risks, ThreatEvent, ThreatSources, Tree, Vulnerability
+from rail import (
+    Control,
+    Impact,
+    Likelihood,
+    Risk,
+    Risks,
+    ThreatEvent,
+    ThreatSources,
+    Tree,
+    Vulnerability,
+)
 
 LAM = 0.5
 NAME = "Test Impact"
 MU = 100
 SIGMA = 10
+
 
 class TestRisks(unittest.TestCase):
     """
@@ -22,7 +33,9 @@ class TestRisks(unittest.TestCase):
         self.system = Tree(name="test tree")
         self.system.add_child("test child")
         self.controls = [Control("test control", 100, 0.1)]
-        self.vulnerability = Vulnerability(self.threat_event, self.system, self.controls)
+        self.vulnerability = Vulnerability(
+            self.threat_event, self.system, self.controls
+        )
         self.likelihood = Likelihood(LAM)
         self.impact = Impact(NAME, MU, SIGMA)
         self.risks = Risks()
@@ -32,7 +45,7 @@ class TestRisks(unittest.TestCase):
         """
         Test risks
         """
-        pass
+        self.assertEqual(self.risks.expected_loss_deterministic_mean(), 6.968547903331899e+63)
 
 
 if __name__ == "__main__":
