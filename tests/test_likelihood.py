@@ -7,6 +7,7 @@ from rail import Likelihood
 
 LAM = 0.5
 
+
 class TestLikelihood(unittest.TestCase):
     """
     Class to test a likelihood
