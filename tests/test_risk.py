@@ -12,7 +12,7 @@ SIGMA = 10
 
 class TestRisks(unittest.TestCase):
     """
-    Class to test a risk 
+    Class to test a risk
     """
 
     def setUp(self):
