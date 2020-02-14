@@ -45,7 +45,9 @@ class TestRisks(unittest.TestCase):
         """
         Test risks
         """
-        self.assertEqual(self.risks.expected_loss_deterministic_mean(), 6.968547903331899e+63)
+        self.assertEqual(
+            self.risks.expected_loss_deterministic_mean(), 6.968547903331899e63
+        )
 
 
 if __name__ == "__main__":
