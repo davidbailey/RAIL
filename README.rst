@@ -21,4 +21,4 @@ Installation
 Documentation
 ----
 
-Documentation is available at https://rail.readthedocs.io/en/latest/.
+Documentation is available at https://rail.readthedocs.io/en/latest/notebooks/RAIL.html.
