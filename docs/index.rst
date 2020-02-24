@@ -1,17 +1,16 @@
 RAIL
 ================================
 
+.. toctree::
+   :maxdepth: 2
+
+   notebooks/RAIL.ipynb
+
 .. automodule:: rail
     :members:
     :imported-members:
     :undoc-members:
     :show-inheritance:
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
 
 Indices and tables
 ==================
