@@ -13,8 +13,6 @@ Risk Assessment Library
 Installation
 ----
 
-Source code is available at https://github.com/davidbailey/RAIL.
-
 .. code-block:: bash
 
     $ pip install git+https://github.com/davidbailey/RAIL.git
