@@ -15,7 +15,7 @@ Installation
 
 .. code-block:: bash
 
-    $ pip install git+https://github.com/davidbailey/RAIL.git
+    $ pip install RAIL
 
 
 Documentation
