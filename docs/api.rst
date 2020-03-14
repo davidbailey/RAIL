@@ -1,4 +1,4 @@
-API
+api
 ===
 
 .. automodule:: rail

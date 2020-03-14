@@ -30,4 +30,4 @@ class Likelihood(UserDict):
         plt.title("%s (histogram)" % (self.data["name"]))
         plt.ylabel("relative frequency")
         plt.xlabel("likelihood")
-        return plt.hist(s, 14, normed=True, axes=axes)
+        return plt.hist(s, 14, axes=axes)
