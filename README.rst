@@ -2,7 +2,7 @@ RAIL
 ====
 Risk Assessment Library
 
-.. image:: https://travis-ci.com/davidbailey/RAIL.svg?branch=master
+.. image:: https://travis-ci.com/davidbailey/RAIL.svg?branch=trunk
     :target: https://travis-ci.com/davidbailey/RAIL
 .. image:: https://coveralls.io/repos/github/davidbailey/RAIL/badge.svg
     :target: https://coveralls.io/github/davidbailey/RAIL
